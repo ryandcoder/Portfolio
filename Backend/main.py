@@ -1,4 +1,5 @@
 """Portfolio AI Assistant – FastAPI backend (Google Gemini via google-genai)."""
+import asyncio
 import logging
 import os
 import time
@@ -18,13 +19,18 @@ log = logging.getLogger("uvicorn.error")
 
 API_KEY = (os.getenv("GEMINI_API_KEY") or "").strip().strip("'\"")
 MODEL = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
+FALLBACKS = [
+    m.strip()
+    for m in os.getenv("GEMINI_FALLBACK_MODELS", "gemini-3.7-flash,gemini-3.5-flash-lite").split(",")
+    if m.strip()
+]
+THINKING = os.getenv("GEMINI_THINKING_LEVEL", "").strip().lower()  # optional: low | medium | high
 OWNER = os.getenv("OWNER_NAME", "Your Name")
 ORIGINS = [
     o.strip().rstrip("/")
     for o in os.getenv("ALLOWED_ORIGINS", "http://localhost:5500,http://127.0.0.1:5500").split(",")
     if o.strip()
 ]
-THINKING = os.getenv("GEMINI_THINKING_LEVEL", "").strip().lower()  # optional: low | medium | high
 RATE_LIMIT = int(os.getenv("RATE_LIMIT_PER_MIN", "15"))
 DEBUG = os.getenv("DEBUG", "false").lower() == "true"  # show real Gemini errors in the chat while testing
 
@@ -59,6 +65,10 @@ app.add_middleware(
 
 _hits: dict[str, deque] = defaultdict(deque)
 
+# Cache answers to first-turn questions (like the suggestion chips) so repeats cost no Gemini quota.
+_cache: dict[str, tuple[float, str]] = {}
+CACHE_TTL = 24 * 3600
+
 
 def check_rate_limit(request: Request) -> None:
     fwd = request.headers.get("x-forwarded-for", "")
@@ -69,6 +79,35 @@ def check_rate_limit(request: Request) -> None:
     if len(q) >= RATE_LIMIT:
         raise HTTPException(429, "You're sending messages too fast. Please wait a moment.")
     q.append(now)
+
+
+RETRY_SAME_MODEL = {500, 503, 504}  # temporary server trouble: wait and retry
+TRY_NEXT_MODEL = {404, 429}         # model unavailable or out of quota: switch model
+
+
+async def generate_with_fallback(contents):
+    """Try the main model (with retries), then each fallback model once."""
+    last_error = None
+    for idx, model in enumerate([MODEL, *FALLBACKS]):
+        cfg = {"system_instruction": SYSTEM_PROMPT, "max_output_tokens": 3000}
+        if idx == 0 and THINKING:
+            cfg["thinking_config"] = types.ThinkingConfig(thinking_level=THINKING)
+        attempts = 3 if idx == 0 else 1
+        for n in range(attempts):
+            try:
+                return await client.aio.models.generate_content(
+                    model=model, contents=contents, config=types.GenerateContentConfig(**cfg)
+                )
+            except errors.APIError as e:
+                last_error = e
+                log.warning("Gemini %s on %s (attempt %d/%d): %s", e.code, model, n + 1, attempts, e.message)
+                if e.code in RETRY_SAME_MODEL and n < attempts - 1:
+                    await asyncio.sleep(1.5 * (n + 1))
+                    continue
+                if e.code in RETRY_SAME_MODEL or e.code in TRY_NEXT_MODEL:
+                    break  # go to the next model
+                raise      # bad key, bad request, etc.: switching models won't help
+    raise last_error
 
 
 class Msg(BaseModel):
@@ -94,6 +133,12 @@ def health():
 async def chat(body: ChatRequest, request: Request):
     check_rate_limit(request)
 
+    cache_key = " ".join(body.message.lower().split())
+    if not body.history:
+        hit = _cache.get(cache_key)
+        if hit and time.time() - hit[0] < CACHE_TTL:
+            return ChatResponse(reply=hit[1])
+
     history = body.history[-10:]
     while history and history[0].role != "user":  # Gemini expects a user turn first
         history = history[1:]
@@ -107,21 +152,12 @@ async def chat(body: ChatRequest, request: Request):
     ]
     contents.append(types.Content(role="user", parts=[types.Part.from_text(text=body.message)]))
 
-    cfg = {"system_instruction": SYSTEM_PROMPT, "max_output_tokens": 3000}
-    if THINKING:
-        cfg["thinking_config"] = types.ThinkingConfig(thinking_level=THINKING)
-    gen_config = types.GenerateContentConfig(**cfg)
-
     try:
-        result = await client.aio.models.generate_content(
-            model=MODEL,
-            contents=contents,
-            config=gen_config,
-        )
+        result = await generate_with_fallback(contents)
     except errors.APIError as e:
         log.error("Gemini API error %s: %s", e.code, e.message)
-        if e.code == 429:
-            raise HTTPException(429, "The assistant is busy right now. Please try again in a minute.")
+        if e.code in (429, 503):
+            raise HTTPException(503, "The assistant is very busy right now. Please try again in a minute.")
         detail = f"[DEBUG] Gemini error {e.code}: {e.message}" if DEBUG else \
             "The assistant is unavailable right now. Please try again shortly."
         raise HTTPException(502, detail)
@@ -134,4 +170,6 @@ async def chat(body: ChatRequest, request: Request):
     reply = (result.text or "").strip()
     if not reply:
         reply = "I couldn't come up with an answer to that. Could you rephrase, or contact me directly?"
+    if not body.history and result.text and len(_cache) < 200:
+        _cache[cache_key] = (time.time(), reply)
     return ChatResponse(reply=reply)
