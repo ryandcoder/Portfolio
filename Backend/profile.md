@@ -1,8 +1,8 @@
-# Background context about Kim Ryan Raza Nabo
+# Background context about Kim Ryan Nabo
 The assistant answers only from what is written in this file.
 
 ## Summary
-Kim Ryan Raza Nabo is a Computer Science graduate (2022–2026) certified in Data Analytics, Cisco Networking, and Huawei Cloud. He has practical experience in data management, web development, and network configuration. He is proficient in MySQL, system troubleshooting, and full-stack project delivery. He is skilled at extracting insights from datasets and works well with technical teams.
+Kim Ryan Nabo is a Computer Science graduate (2022–2026) certified in Data Analytics, Cisco Networking, and Huawei Cloud. He has practical experience in data management, web development, and network configuration. He is proficient in MySQL, system troubleshooting, and full-stack project delivery. He is skilled at extracting insights from datasets and works well with technical teams.
 He is looking for an entry-level position in Data Analytics, IT Support, Technical Support, or Network Support.
 
 ## Location

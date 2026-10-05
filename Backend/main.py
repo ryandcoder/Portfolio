@@ -10,21 +10,23 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from google import genai
-from google.genai import types
+from google.genai import errors, types
 from pydantic import BaseModel, Field
 
 load_dotenv()
-log = logging.getLogger("portfolio-ai")
+log = logging.getLogger("uvicorn.error")
 
-API_KEY = os.getenv("GEMINI_API_KEY")
-MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+API_KEY = (os.getenv("GEMINI_API_KEY") or "").strip().strip("'\"")
+MODEL = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
 OWNER = os.getenv("OWNER_NAME", "Your Name")
 ORIGINS = [
     o.strip().rstrip("/")
     for o in os.getenv("ALLOWED_ORIGINS", "http://localhost:5500,http://127.0.0.1:5500").split(",")
     if o.strip()
 ]
+THINKING = os.getenv("GEMINI_THINKING_LEVEL", "").strip().lower()  # optional: low | medium | high
 RATE_LIMIT = int(os.getenv("RATE_LIMIT_PER_MIN", "15"))
+DEBUG = os.getenv("DEBUG", "false").lower() == "true"  # show real Gemini errors in the chat while testing
 
 if not API_KEY:
     raise RuntimeError("GEMINI_API_KEY is not set. Copy .env.example to .env and add your key.")
@@ -105,19 +107,29 @@ async def chat(body: ChatRequest, request: Request):
     ]
     contents.append(types.Content(role="user", parts=[types.Part.from_text(text=body.message)]))
 
+    cfg = {"system_instruction": SYSTEM_PROMPT, "max_output_tokens": 3000}
+    if THINKING:
+        cfg["thinking_config"] = types.ThinkingConfig(thinking_level=THINKING)
+    gen_config = types.GenerateContentConfig(**cfg)
+
     try:
         result = await client.aio.models.generate_content(
             model=MODEL,
             contents=contents,
-            config=types.GenerateContentConfig(
-                system_instruction=SYSTEM_PROMPT,
-                temperature=0.4,
-                max_output_tokens=600,
-            ),
+            config=gen_config,
         )
-    except Exception:
-        log.exception("Gemini request failed")
-        raise HTTPException(502, "The assistant is unavailable right now. Please try again shortly.")
+    except errors.APIError as e:
+        log.error("Gemini API error %s: %s", e.code, e.message)
+        if e.code == 429:
+            raise HTTPException(429, "The assistant is busy right now. Please try again in a minute.")
+        detail = f"[DEBUG] Gemini error {e.code}: {e.message}" if DEBUG else \
+            "The assistant is unavailable right now. Please try again shortly."
+        raise HTTPException(502, detail)
+    except Exception as e:
+        log.exception("Unexpected error while calling Gemini")
+        detail = f"[DEBUG] {type(e).__name__}: {e}" if DEBUG else \
+            "The assistant is unavailable right now. Please try again shortly."
+        raise HTTPException(502, detail)
 
     reply = (result.text or "").strip()
     if not reply:

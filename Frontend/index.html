@@ -14,6 +14,9 @@ if(localStorage.theme==='dark'||(!localStorage.theme&&matchMedia('(prefers-color
 <style>
 html{scroll-behavior:smooth;scroll-padding-top:72px}
 :focus-visible{outline:2px solid currentColor;outline-offset:3px}
+[hidden]{display:none!important}
+#panel{display:flex;flex-direction:column;width:min(380px,calc(100vw - 2rem));height:min(560px,calc(100vh - 6.5rem));height:min(560px,calc(100dvh - 6.5rem));max-width:100%}
+#input{font-size:16px}
 .dot{animation:b 1s infinite}.dot:nth-child(2){animation-delay:.15s}.dot:nth-child(3){animation-delay:.3s}
 @keyframes b{0%,80%,100%{opacity:.25}40%{opacity:1}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
@@ -25,9 +28,12 @@ html{scroll-behavior:smooth;scroll-padding-top:72px}
   <div class="mx-auto max-w-5xl px-5 h-16 flex items-center justify-between">
     <a href="#home" class="font-bold">Kim Ryan Nabo</a>
     <nav class="flex items-center gap-1 text-sm" aria-label="Sections">
-      <a class="hidden sm:inline px-3 py-1.5 text-neutral-500 hover:text-current" href="#about">About</a>
-      <a class="hidden sm:inline px-3 py-1.5 text-neutral-500 hover:text-current" href="#projects">Projects</a>
-      <a class="hidden sm:inline px-3 py-1.5 text-neutral-500 hover:text-current" href="#contact">Contact</a>
+      <a class="hidden md:inline px-3 py-1.5 text-neutral-500 hover:text-current" href="#about">About</a>
+      <a class="hidden md:inline px-3 py-1.5 text-neutral-500 hover:text-current" href="#experience">Experience</a>
+      <a class="hidden md:inline px-3 py-1.5 text-neutral-500 hover:text-current" href="#projects">Projects</a>
+      <a class="hidden md:inline px-3 py-1.5 text-neutral-500 hover:text-current" href="#education">Education</a>
+      <a class="hidden md:inline px-3 py-1.5 text-neutral-500 hover:text-current" href="#certifications">Certifications</a>
+      <a class="hidden md:inline px-3 py-1.5 text-neutral-500 hover:text-current" href="#contact">Contact</a>
       <button id="themeBtn" class="ml-2 rounded-full border border-neutral-300 dark:border-neutral-700 px-3 py-1.5 hover:border-current" aria-label="Toggle dark mode">Theme</button>
     </nav>
   </div>
@@ -62,9 +68,41 @@ html{scroll-behavior:smooth;scroll-padding-top:72px}
     </ul>
   </section>
 
+  <section id="experience" class="py-16 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-8">Professional experience</h2>
+    <div class="grid gap-2 sm:grid-cols-[180px_1fr] sm:gap-8">
+      <p class="text-neutral-500">Feb – Apr 2026</p>
+      <div>
+        <h3 class="font-bold">Frontend Developer Intern</h3>
+        <p class="text-neutral-500">DvCode Technologies</p>
+        <ul class="mt-4 space-y-2 list-disc pl-5 text-neutral-600 dark:text-neutral-300 max-w-2xl">
+          <li>Developed responsive user interface components that improved usability across desktop and mobile devices.</li>
+          <li>Resolved front-end issues identified during testing and collaborated with teammates before deployment.</li>
+          <li>Worked with a team using Git-based version control and Agile development practices.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
   <section id="projects" class="py-16 border-t border-neutral-200 dark:border-neutral-800">
     <h2 class="text-2xl font-bold tracking-tight mb-8">Projects</h2>
     <div id="grid" class="grid gap-8 sm:grid-cols-2"></div>
+  </section>
+
+  <section id="education" class="py-16 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-8">Education</h2>
+    <div class="grid gap-2 sm:grid-cols-[180px_1fr] sm:gap-8">
+      <p class="text-neutral-500">2022 – 2026</p>
+      <div>
+        <h3 class="font-bold">Bachelor of Science in Computer Science</h3>
+        <p class="text-neutral-500">Dr. Yanga's Colleges Inc.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="certifications" class="py-16 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-8">Certifications</h2>
+    <ul id="certs" class="max-w-3xl"></ul>
   </section>
 
   <section id="contact" class="py-16 border-t border-neutral-200 dark:border-neutral-800">
@@ -73,22 +111,21 @@ html{scroll-behavior:smooth;scroll-padding-top:72px}
     <div class="mt-6 flex flex-wrap gap-3">
       <a href="mailto:nabokimryan@gmail.com" class="rounded-full bg-black text-white dark:bg-white dark:text-black px-6 py-3 font-medium">nabokimryan@gmail.com</a>
       <a href="https://www.linkedin.com/in/kim-ryan-nabo" target="_blank" rel="noopener" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-6 py-3 hover:border-current">LinkedIn</a>
-      <a href="https://github.com/ryandcoder" target="_blank" rel="noopener" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-6 py-3 hover:border-current">GitHub</a>
-      <a href="viber://chat?number=+639479525938" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-6 py-3 hover:border-current">Viber</a>
+      <!-- Add your GitHub link: <a href="https://github.com/YOUR-USERNAME" target="_blank" rel="noopener" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-6 py-3 hover:border-current">GitHub</a> -->
     </div>
   </section>
 </main>
 <footer class="border-t border-neutral-200 dark:border-neutral-800 py-8 text-center text-sm text-neutral-500">© <span id="yr"></span> Kim Ryan Nabo</footer>
 
 <!-- AI chat widget -->
-<div class="fixed bottom-4 right-4 z-40 flex flex-col items-end gap-3">
+<div class="fixed bottom-4 right-4 z-40 flex flex-col items-end gap-3 max-w-[calc(100vw-2rem)]">
   <section id="panel" hidden role="dialog" aria-label="Portfolio AI Assistant"
-    class="flex flex-col w-[min(380px,calc(100vw-2rem))] h-[min(560px,calc(100vh-6.5rem))] bg-white dark:bg-black border border-black dark:border-white shadow-2xl">
+    class="bg-white dark:bg-black border border-black dark:border-white shadow-2xl">
     <div class="flex items-center justify-between px-4 py-3 border-b border-neutral-200 dark:border-neutral-800">
       <div><p class="font-bold leading-tight">Portfolio AI Assistant</p><p class="text-xs text-neutral-500">Ask about my work</p></div>
       <button id="closeBtn" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-3 py-1 text-sm hover:border-current" aria-label="Close chat">Close</button>
     </div>
-    <div id="log" class="flex-1 overflow-y-auto px-4 py-4 space-y-3 text-sm" aria-live="polite"></div>
+    <div id="log" class="flex-1 min-h-0 overflow-y-auto px-4 py-4 space-y-3 text-sm" aria-live="polite"></div>
     <div id="chips" class="flex flex-wrap gap-2 px-4 pb-3"></div>
     <form id="form" class="flex gap-2 border-t border-neutral-200 dark:border-neutral-800 p-3">
       <input id="input" maxlength="500" autocomplete="off" placeholder="Type your question…" aria-label="Your question"
@@ -119,6 +156,21 @@ $("#grid").innerHTML = PROJECTS.map(p => `
     <p class="mt-1 text-sm">${p.d}</p>
     <p class="mt-1 text-xs text-neutral-500">${p.k}</p>
   </div>`).join("");
+const CERTS = [
+  ["Data Analytics", "IT Specialist", "2026"],
+  ["Network Support and Security", "Cisco Networking Academy", "2026"],
+  ["Introduction to IoT", "Cisco Networking Academy", "2026"],
+  ["Cyber Security Seminar", "4th Regional Cyber Security Seminar", "2025"],
+  ["Cloud Service V3.5 Course", "Huawei ICT Academy", "2025"],
+  ["Introduction to Cybersecurity", "Cisco Networking Academy", "2023"],
+  ["Networking Basics", "Cisco Networking Academy", "2023"],
+  ["Excel 2019 Associate", "Microsoft Office Specialist", "2022"]
+];
+$("#certs").innerHTML = CERTS.map(c => `
+  <li class="flex justify-between gap-4 py-3 border-b border-neutral-200 dark:border-neutral-800">
+    <span><span class="font-medium">${c[0]}</span><br><span class="text-sm text-neutral-500">${c[1]}</span></span>
+    <span class="text-neutral-500 shrink-0">${c[2]}</span>
+  </li>`).join("");
 $("#yr").textContent = new Date().getFullYear();
 
 // Theme
