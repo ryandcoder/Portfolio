@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SupportIQ – IT Support Analytics Dashboard | Kim Ryan Nabo</title>
+<meta name="description" content="SupportIQ is a full-stack IT support ticket analytics dashboard built by Kim Ryan Nabo with React, FastAPI, Pandas, and PostgreSQL.">
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{sans:['"Schibsted Grotesk"','system-ui','sans-serif']}}}};
+if(localStorage.theme==='dark'||(!localStorage.theme&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark');
+</script>
+<style>
+html{scroll-behavior:smooth}
+:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body class="bg-white text-black dark:bg-black dark:text-white font-sans antialiased transition-colors">
+
+<header class="sticky top-0 z-30 border-b border-neutral-200 dark:border-neutral-800 bg-white/90 dark:bg-black/90 backdrop-blur">
+  <div class="mx-auto max-w-4xl px-5 h-16 flex items-center justify-between">
+    <a href="index.html#projects" class="font-medium hover:underline underline-offset-4">← Back to portfolio</a>
+    <button id="themeBtn" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-3 py-1.5 text-sm hover:border-current" aria-label="Toggle dark mode">Theme</button>
+  </div>
+</header>
+
+<main class="mx-auto max-w-4xl px-5">
+  <section class="pt-16 pb-14">
+    <p class="text-sm uppercase tracking-widest text-neutral-500">Data Analyst project</p>
+    <h1 class="mt-3 font-black tracking-tighter leading-[.95] text-5xl sm:text-7xl">SupportIQ</h1>
+    <p class="mt-5 max-w-2xl text-xl text-neutral-500">A full-stack analytics dashboard that turns IT support ticket data into clear, filterable insights.</p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <!-- Update both links below if your repository or live address is different -->
+      <a href="https://supportiq-six.vercel.app" target="_blank" rel="noopener" class="rounded-full bg-black text-white dark:bg-white dark:text-black px-6 py-3 font-medium">View live app ↗</a>
+      <a href="https://github.com/ryandcoder/supportiq" target="_blank" rel="noopener" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-6 py-3 font-medium hover:border-current">GitHub repository ↗</a>
+    </div>
+    <dl class="mt-12 grid gap-6 sm:grid-cols-3 border-t border-neutral-200 dark:border-neutral-800 pt-6 text-sm">
+      <div><dt class="text-neutral-500">Role</dt><dd class="mt-1 font-medium">Designer and developer (solo project)</dd></div>
+      <div><dt class="text-neutral-500">Focus</dt><dd class="mt-1 font-medium">Data analysis, API design, dashboards</dd></div>
+      <div><dt class="text-neutral-500">Status</dt><dd class="mt-1 font-medium">Deployed and live</dd></div>
+    </dl>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-4">Overview</h2>
+    <p class="max-w-2xl text-neutral-600 dark:text-neutral-300">IT support teams handle large numbers of tickets, but the raw data rarely shows where time is lost or what needs attention. I built SupportIQ to answer questions like these: which issues come up most, how are tickets spread across agents, and what is changing over time?</p>
+    <p class="mt-4 max-w-2xl text-neutral-600 dark:text-neutral-300">I wanted it to look like a professional internal analytics tool, not a school exercise. Every chart is introduced by a plain-language insight sentence, so a manager can read the finding before reading the graph.</p>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-6">What it does</h2>
+    <ul class="grid gap-4 sm:grid-cols-2">
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Interactive dashboard</b><p class="mt-1 text-sm text-neutral-500">Charts and summary figures built with Recharts, with filters to narrow the data.</p></li>
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Written insights</b><p class="mt-1 text-sm text-neutral-500">Short insight sentences above the charts that explain what the data shows.</p></li>
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>CSV upload</b><p class="mt-1 text-sm text-neutral-500">Bring your own ticket data and analyze it with the same tools.</p></li>
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Export and reports</b><p class="mt-1 text-sm text-neutral-500">Take the results out of the app for sharing and reporting.</p></li>
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Analytics engine</b><p class="mt-1 text-sm text-neutral-500">A Python layer using Pandas and NumPy that cleans and summarizes the data before the API serves it.</p></li>
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Light and dark mode</b><p class="mt-1 text-sm text-neutral-500">An editorial look with a warm paper background, serif headlines, and a deep teal accent.</p></li>
+    </ul>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-6">How it is built</h2>
+    <div class="grid gap-3 sm:grid-cols-[1fr_auto_1fr_auto_1fr] sm:items-center text-center text-sm">
+      <div class="border border-neutral-300 dark:border-neutral-700 p-4"><b>Frontend</b><br><span class="text-neutral-500">React · TypeScript · Vite · Tailwind · Recharts · Vercel</span></div>
+      <span class="text-neutral-500" aria-hidden="true">→</span>
+      <div class="border border-neutral-300 dark:border-neutral-700 p-4"><b>API</b><br><span class="text-neutral-500">FastAPI · Pydantic · Pandas · NumPy · SQLAlchemy · Render</span></div>
+      <span class="text-neutral-500" aria-hidden="true">→</span>
+      <div class="border border-neutral-300 dark:border-neutral-700 p-4"><b>Database</b><br><span class="text-neutral-500">PostgreSQL on Neon</span></div>
+    </div>
+    <p class="mt-6 max-w-2xl text-neutral-600 dark:text-neutral-300">I built it in phases, starting with the database and data loading, then the analytics engine, the API, the dashboard, filters, insights, CSV upload, export and reports, and finally tests and documentation. Docker Compose runs the whole stack locally with one command.</p>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-4">The data</h2>
+    <p class="max-w-2xl text-neutral-600 dark:text-neutral-300">SupportIQ uses three CSV files: agents, merchants, and tickets. They come from the open
+      <a class="underline underline-offset-4" href="https://github.com/drapertoby/itsm-ticket-dataset" target="_blank" rel="noopener">ITSM ticket dataset</a> by drapertoby, which I loaded into PostgreSQL for analysis. Thank you to the author for sharing it.</p>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-4">What I learned</h2>
+    <ul class="list-disc pl-5 space-y-2 max-w-2xl text-neutral-600 dark:text-neutral-300">
+      <li>Turning a raw dataset into a clean database, then into questions a business would ask.</li>
+      <li>Designing a REST API that keeps the analysis on the server and sends the frontend only what it needs.</li>
+      <li>Presenting data so a reader gets the finding first and the chart second.</li>
+      <li>Deploying three connected services (frontend, API, and database) and getting them to work together.</li>
+    </ul>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800 mb-8">
+    <div class="flex flex-wrap gap-3">
+      <a href="https://supportiq-six.vercel.app" target="_blank" rel="noopener" class="rounded-full bg-black text-white dark:bg-white dark:text-black px-6 py-3 font-medium">View live app ↗</a>
+      <a href="https://github.com/ryandcoder/supportiq" target="_blank" rel="noopener" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-6 py-3 font-medium hover:border-current">GitHub repository ↗</a>
+      <a href="index.html#projects" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-6 py-3 font-medium hover:border-current">More projects</a>
+    </div>
+  </section>
+</main>
+<footer class="border-t border-neutral-200 dark:border-neutral-800 py-8 text-center text-sm text-neutral-500">© <span id="yr"></span> Kim Ryan Nabo</footer>
+
+<script>
+document.getElementById("yr").textContent = new Date().getFullYear();
+document.getElementById("themeBtn").onclick = () => {
+  const dark = document.documentElement.classList.toggle("dark");
+  localStorage.theme = dark ? "dark" : "light";
+};
+</script>
+</body>
+</html>

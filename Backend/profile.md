@@ -1,8 +1,8 @@
-# Background context about Kim Ryan Nabo
+# Background context about Kim Ryan Raza Nabo
 The assistant answers only from what is written in this file.
 
 ## Summary
-Kim Ryan Nabo is a Computer Science graduate (2022–2026) certified in Data Analytics, Cisco Networking, and Huawei Cloud. He has practical experience in data management, web development, and network configuration. He is proficient in MySQL, system troubleshooting, and full-stack project delivery. He is skilled at extracting insights from datasets and works well with technical teams.
+Kim Ryan Raza Nabo is a Computer Science graduate (2022–2026) certified in Data Analytics, Cisco Networking, and Huawei Cloud. He has practical experience in data management, web development, and network configuration. He is proficient in MySQL, system troubleshooting, and full-stack project delivery. He is skilled at extracting insights from datasets and works well with technical teams.
 He is looking for an entry-level position in Data Analytics, IT Support, Technical Support, or Network Support.
 
 ## Location
@@ -23,6 +23,7 @@ Based in Bocaue, Bulacan, Philippines.
   - Worked with a team using Git-based version control and Agile development practices.
 
 ## Projects
+- SupportIQ (IT Support Analytics Dashboard), Kim's Data Analyst project: a full-stack dashboard that turns IT support ticket data into filterable charts and written insights. Built with React, TypeScript, Vite, Tailwind, Recharts, FastAPI, Pandas, NumPy, SQLAlchemy, and PostgreSQL. Features include filters, CSV upload, and export/reports, with light and dark mode. Deployed with the frontend on Vercel, the API on Render, and the database on Neon. It uses the open ITSM ticket dataset by drapertoby. Details are on the SupportIQ case-study page of this site.
 - Card Management Library (Yarn, React, Node.js, Convex, TypeScript, Git, Figma): A web-based card management platform built with a development team. Kim developed responsive user interfaces and features that let users organize and manage collectible card data efficiently.
 - Employee Wellness Management System (React, Node.js, JavaScript, PHP, MySQL, Git): A web-based employee management system with modules for attendance tracking, leave requests, task management, performance evaluations, and notifications, backed by a relational MySQL database.
 - Academic Clearance System (React, Node.js, JavaScript, Firebase, Git): A digital clearance system that streamlines student clearance requests, enables real-time status tracking, and centralizes approval workflows using Firebase services. Kim designed and developed it.
@@ -43,7 +44,5 @@ Based in Bocaue, Bulacan, Philippines.
 
 ## Contact
 - Email: nabokimryan@gmail.com
-- Github: https://github.com/ryandcoder
 - LinkedIn: https://www.linkedin.com/in/kim-ryan-nabo
-- Viber/Whatsapp: +63 9479525938
 - Availability: open to entry-level roles in Data Analytics, IT Support, Technical Support, and Network Support

@@ -17,6 +17,9 @@ html{scroll-behavior:smooth;scroll-padding-top:72px}
 [hidden]{display:none!important}
 #panel{display:flex;flex-direction:column;width:min(380px,calc(100vw - 2rem));height:min(560px,calc(100vh - 6.5rem));height:min(560px,calc(100dvh - 6.5rem));max-width:100%}
 #input{font-size:16px}
+#resumeDlg{width:min(900px,96vw);height:min(94vh,1100px);height:min(94dvh,1100px);max-width:none;max-height:none;padding:0;margin:auto}
+#resumeDlg[open]{display:flex;flex-direction:column}
+#resumeDlg::backdrop{background:rgba(0,0,0,.65)}
 .dot{animation:b 1s infinite}.dot:nth-child(2){animation-delay:.15s}.dot:nth-child(3){animation-delay:.3s}
 @keyframes b{0%,80%,100%{opacity:.25}40%{opacity:1}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
@@ -28,12 +31,12 @@ html{scroll-behavior:smooth;scroll-padding-top:72px}
   <div class="mx-auto max-w-5xl px-5 h-16 flex items-center justify-between">
     <a href="#home" class="font-bold">Kim Ryan Nabo</a>
     <nav class="flex items-center gap-1 text-sm" aria-label="Sections">
-      <a class="hidden md:inline px-3 py-1.5 text-neutral-500 hover:text-current" href="#about">About</a>
-      <a class="hidden md:inline px-3 py-1.5 text-neutral-500 hover:text-current" href="#experience">Experience</a>
-      <a class="hidden md:inline px-3 py-1.5 text-neutral-500 hover:text-current" href="#projects">Projects</a>
-      <a class="hidden md:inline px-3 py-1.5 text-neutral-500 hover:text-current" href="#education">Education</a>
-      <a class="hidden md:inline px-3 py-1.5 text-neutral-500 hover:text-current" href="#certifications">Certifications</a>
-      <a class="hidden md:inline px-3 py-1.5 text-neutral-500 hover:text-current" href="#contact">Contact</a>
+      <a class="hidden lg:inline px-3 py-1.5 text-neutral-500 hover:text-current" href="#about">About</a>
+      <a class="hidden lg:inline px-3 py-1.5 text-neutral-500 hover:text-current" href="#experience">Experience</a>
+      <a class="hidden lg:inline px-3 py-1.5 text-neutral-500 hover:text-current" href="#projects">Projects</a>
+      <a class="hidden lg:inline px-3 py-1.5 text-neutral-500 hover:text-current" href="#education">Education</a>
+      <a class="hidden lg:inline px-3 py-1.5 text-neutral-500 hover:text-current" href="#certifications">Certifications</a>
+      <a class="hidden lg:inline px-3 py-1.5 text-neutral-500 hover:text-current" href="#contact">Contact</a>
       <button id="themeBtn" class="ml-2 rounded-full border border-neutral-300 dark:border-neutral-700 px-3 py-1.5 hover:border-current" aria-label="Toggle dark mode">Theme</button>
     </nav>
   </div>
@@ -41,10 +44,11 @@ html{scroll-behavior:smooth;scroll-padding-top:72px}
 
 <main class="mx-auto max-w-5xl px-5">
   <section id="home" class="pt-20 pb-24 sm:pt-32">
-    <h1 class="font-black tracking-tighter leading-[.95] text-5xl sm:text-7xl md:text-8xl">Kim Ryan </br> Nabo.</h1>
+    <h1 class="font-black tracking-tighter leading-[.95] text-5xl sm:text-7xl md:text-8xl">Kim Ryan <br> Nabo.</h1>
     <p class="mt-6 max-w-xl text-lg text-neutral-500">Computer Science graduate certified in Data Analytics, Cisco Networking, and Huawei Cloud. I build responsive web apps and troubleshoot systems and networks. Open to entry-level roles in Data Analytics, IT Support, Technical Support, and Network Support.</p>
     <div class="mt-8 flex flex-wrap gap-3">
       <a href="#projects" class="rounded-full bg-black text-white dark:bg-white dark:text-black px-6 py-3 font-medium">View projects</a>
+      <button id="resumeBtn" type="button" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-6 py-3 font-medium hover:border-current">Resume</button>
       <button id="askBtn" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-6 py-3 font-medium hover:border-current">Ask my AI assistant</button>
     </div>
   </section>
@@ -86,7 +90,8 @@ html{scroll-behavior:smooth;scroll-padding-top:72px}
 
   <section id="projects" class="py-16 border-t border-neutral-200 dark:border-neutral-800">
     <h2 class="text-2xl font-bold tracking-tight mb-8">Projects</h2>
-    <div id="grid" class="grid gap-8 sm:grid-cols-2"></div>
+    <div id="tabs" role="tablist" aria-label="Project categories" class="flex flex-wrap gap-2 mb-8"></div>
+    <div id="grid" role="tabpanel" class="grid gap-8 sm:grid-cols-2"></div>
   </section>
 
   <section id="education" class="py-16 border-t border-neutral-200 dark:border-neutral-800">
@@ -105,7 +110,7 @@ html{scroll-behavior:smooth;scroll-padding-top:72px}
     <ul id="certs" class="max-w-3xl"></ul>
   </section>
 
-  <section id="contact" class="py-16 border-t border-neutral-200 dark:border-neutral-800">
+    <section id="contact" class="py-16 border-t border-neutral-200 dark:border-neutral-800">
     <h2 class="text-2xl font-bold tracking-tight mb-4">Contact</h2>
     <p class="text-neutral-500 max-w-md">Looking for an entry-level developer, data analyst, or IT support teammate? Send me a message.</p>
     <div class="mt-6 flex flex-wrap gap-3">
@@ -117,6 +122,32 @@ html{scroll-behavior:smooth;scroll-padding-top:72px}
   </section>
 </main>
 <footer class="border-t border-neutral-200 dark:border-neutral-800 py-8 text-center text-sm text-neutral-500">© <span id="yr"></span> Kim Ryan Nabo</footer>
+
+<!-- Resume preview -->
+<dialog id="resumeDlg" aria-labelledby="rTitle" class="bg-white text-black dark:bg-black dark:text-white border border-black dark:border-white">
+  <div class="flex items-center justify-between px-4 py-3 border-b border-neutral-300 dark:border-neutral-700">
+    <h2 id="rTitle" class="font-bold">Resume</h2>
+    <button id="rClose" type="button" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-3 py-1.5 text-sm hover:border-current disabled:opacity-40" aria-label="Close resume preview">Close</button>
+  </div>
+  <div class="flex flex-wrap items-center gap-2 px-3 py-2 border-b border-neutral-300 dark:border-neutral-700" role="toolbar" aria-label="Resume viewer tools">
+    <button id="pPrev" type="button" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-3 py-1.5 text-sm hover:border-current disabled:opacity-40" aria-label="Previous page">‹</button>
+    <span class="text-sm tabular-nums px-1" aria-live="polite"><span id="pNum">1</span> / <span id="pTot">1</span></span>
+    <button id="pNext" type="button" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-3 py-1.5 text-sm hover:border-current disabled:opacity-40" aria-label="Next page">›</button>
+    <span class="w-px h-5 bg-neutral-300 dark:bg-neutral-700 mx-1" aria-hidden="true"></span>
+    <button id="pOut" type="button" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-3 py-1.5 text-sm hover:border-current disabled:opacity-40" aria-label="Zoom out">−</button>
+    <span id="pZoom" class="text-sm tabular-nums w-12 text-center">100%</span>
+    <button id="pIn" type="button" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-3 py-1.5 text-sm hover:border-current disabled:opacity-40" aria-label="Zoom in">+</button>
+    <button id="pFit" type="button" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-3 py-1.5 text-sm hover:border-current disabled:opacity-40">Fit width</button>
+    <span class="flex-1"></span>
+    <button id="pPrint" type="button" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-3 py-1.5 text-sm hover:border-current disabled:opacity-40">Print</button>
+    <a href="Kim_Ryan_Nabo_Resume.pdf" target="_blank" rel="noopener" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-3 py-1.5 text-sm hover:border-current disabled:opacity-40">Open</a>
+    <a href="Kim_Ryan_Nabo_Resume.pdf" download class="rounded-full bg-black text-white dark:bg-white dark:text-black px-4 py-1.5 text-sm font-medium">Download</a>
+  </div>
+  <div id="pView" class="flex-1 min-h-0 overflow-auto bg-neutral-100 dark:bg-neutral-900 p-3">
+    <p id="pMsg" class="text-sm text-neutral-500 p-4">Loading resume…</p>
+    <canvas id="pCanvas" class="mx-auto block shadow bg-white" hidden aria-label="Preview of Kim Ryan Nabo's resume"></canvas>
+  </div>
+</dialog>
 
 <!-- AI chat widget -->
 <div class="fixed bottom-4 right-4 z-40 flex flex-col items-end gap-3 max-w-[calc(100vw-2rem)]">
@@ -143,20 +174,54 @@ const API_URL = "https://ryans-portfolio-ra57.onrender.com";
 // =========================================================================================
 
 const $ = s => document.querySelector(s);
+// Each project: cat = tab it appears in. Add page / github / live when a project is ready:
+// a project with ANY of these links shows a normal thumbnail; one without shows an "Incoming" placeholder.
+const TABS = ["Data Analyst", "Personal", "School"];
 const PROJECTS = [
-  {t:"Card Management Library", c:"Team project", d:"Web platform for organizing and managing collectible card data, with responsive interfaces.", k:"React · TypeScript · Convex · Node.js · Figma", g:["#000","#bbb"]},
-  {t:"Employee Wellness Management System", c:"Full-stack", d:"Attendance, leave requests, tasks, performance evaluations, and notifications on a MySQL database.", k:"React · Node.js · PHP · MySQL", g:["#444","#eee"]},
-  {t:"Academic Clearance System", c:"Full-stack", d:"Digital student clearance with real-time status tracking and centralized approval workflows.", k:"React · Node.js · Firebase", g:["#999","#111"]},
-  {t:"Movie Database Application", c:"Web app", d:"Responsive movie discovery app showing details, cast, trailers, and images from the TMDB API.", k:"React · TMDB API · PHP · MySQL", g:["#222","#ccc"]}
+  {cat:"Data Analyst", t:"SupportIQ – IT Support Analytics Dashboard", c:"Full-stack · Data analytics", d:"Ticket analytics dashboard with filters, insights, and CSV upload, built on a real IT support ticket dataset.", k:"React · TypeScript · FastAPI · Pandas · PostgreSQL", page:"supportiq.html"},
+  {cat:"Personal", t:"Movie Database Application", c:"Web app", d:"Responsive movie discovery app showing details, cast, trailers, and images from the TMDB API.", k:"React · TMDB API · PHP · MySQL"},
+  {cat:"Personal", t:"Card Management Library", c:"Team project", d:"Web platform for organizing and managing collectible card data, with responsive interfaces.", k:"React · TypeScript · Convex · Node.js · Figma"},
+  {cat:"School", t:"Academic Clearance System", c:"Full-stack", d:"Digital student clearance with real-time status tracking and centralized approval workflows.", k:"React · Node.js · Firebase"},
+  {cat:"School", t:"Employee Wellness Management System", c:"Full-stack", d:"Attendance, leave requests, tasks, performance evaluations, and notifications on a MySQL database.", k:"React · Node.js · PHP · MySQL"}
 ];
-$("#grid").innerHTML = PROJECTS.map(p => `
-  <div class="group block">
-    <div class="aspect-[4/3] grayscale transition-transform group-hover:scale-[.98]" style="background:linear-gradient(135deg,${p.g[0]},${p.g[1]})"></div>
+const CONE = '<svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 3h5l4.2 15h-13.4z"/><path d="M7.6 11h8.8M6.4 15h11.2"/><path d="M3 21h18"/></svg>';
+const hasLink = p => p.page || p.github || p.live;
+// Projects without a link show only an "Incoming" placeholder (no name or details) until a link is added.
+const incoming = () => `<div class="group block" role="img" aria-label="Incoming project">
+  <div class="aspect-[4/3] flex flex-col items-center justify-center gap-3 border border-dashed border-neutral-400 dark:border-neutral-600 bg-neutral-100 dark:bg-neutral-900 text-neutral-500"
+    style="background-image:repeating-linear-gradient(-45deg,rgba(128,128,128,.14) 0 10px,transparent 10px 20px)">
+    ${CONE}<span class="text-sm font-medium tracking-widest uppercase">Incoming</span>
+  </div></div>`;
+const card = p => {
+  if (!hasLink(p)) return incoming();
+  const href = p.page || p.live || p.github;
+  return `<a href="${href}" class="group block">
+    <div class="aspect-[4/3] bg-black dark:bg-neutral-900 flex items-end justify-center gap-2 px-8 pb-8 transition-transform group-hover:scale-[.98]" aria-hidden="true">
+      ${[35,60,45,80,55,95,70].map(h => `<span class="w-full bg-white" style="height:${h}%"></span>`).join("")}
+    </div>
     <h3 class="mt-3 font-bold">${p.t}</h3>
     <p class="text-sm text-neutral-500">${p.c}</p>
     <p class="mt-1 text-sm">${p.d}</p>
     <p class="mt-1 text-xs text-neutral-500">${p.k}</p>
-  </div>`).join("");
+    <p class="mt-3 text-sm font-medium underline underline-offset-4">${p.page ? "View case study →" : "View project →"}</p>
+  </a>`;
+};
+let tab = TABS[0];
+function drawProjects() {
+  $("#tabs").innerHTML = TABS.map(t => `<button type="button" role="tab" id="tab-${TABS.indexOf(t)}" aria-selected="${t === tab}" tabindex="${t === tab ? 0 : -1}"
+    class="rounded-full border px-5 py-2 text-sm font-medium ${t === tab ? "bg-black text-white dark:bg-white dark:text-black border-transparent" : "border-neutral-300 dark:border-neutral-700 hover:border-current"}">${t}</button>`).join("");
+  $("#grid").setAttribute("aria-labelledby", "tab-" + TABS.indexOf(tab));
+  $("#grid").innerHTML = PROJECTS.filter(p => p.cat === tab).map(card).join("");
+}
+$("#tabs").onclick = e => { const b = e.target.closest("[role=tab]"); if (b) { tab = b.textContent; drawProjects(); } };
+$("#tabs").onkeydown = e => {
+  const i = TABS.indexOf(tab), n = TABS.length;
+  if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+    tab = TABS[(i + (e.key === "ArrowRight" ? 1 : n - 1)) % n]; drawProjects();
+    document.getElementById("tab-" + TABS.indexOf(tab)).focus();
+  }
+};
+drawProjects();
 const CERTS = [
   ["Data Analytics", "IT Specialist", "2026"],
   ["Network Support and Security", "Cisco Networking Academy", "2026"],
@@ -173,6 +238,82 @@ $("#certs").innerHTML = CERTS.map(c => `
     <span class="text-neutral-500 shrink-0">${c[2]}</span>
   </li>`).join("");
 $("#yr").textContent = new Date().getFullYear();
+
+// ---- Resume popup with PDF viewer (PDF.js loads the first time you open it) ----
+(() => {
+  const FILE = "Kim_Ryan_Nabo_Resume.pdf";
+  const PDFJS = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
+  const WORKER = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  const dlg = $("#resumeDlg"), view = $("#pView"), canvas = $("#pCanvas"), msg = $("#pMsg");
+  let pdf = null, pageNo = 1, scale = 1, fit = true, busy = false, queued = false, loading = false;
+
+  function show(text) {
+    canvas.hidden = true; msg.hidden = false;
+    msg.innerHTML = "";
+    const p = document.createElement("span"); p.textContent = text + " ";
+    const a = document.createElement("a");
+    a.href = FILE; a.target = "_blank"; a.rel = "noopener"; a.className = "underline underline-offset-4"; a.textContent = "Open the PDF directly";
+    msg.append(p, a);
+  }
+  async function render() {
+    if (!pdf) return;
+    if (busy) { queued = true; return; }
+    busy = true;
+    try {
+      const page = await pdf.getPage(pageNo);
+      if (fit) scale = Math.max(.4, (view.clientWidth - 24) / page.getViewport({ scale: 1 }).width);
+      const vp = page.getViewport({ scale }), dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.floor(vp.width * dpr); canvas.height = Math.floor(vp.height * dpr);
+      canvas.style.width = vp.width + "px"; canvas.style.height = vp.height + "px";
+      await page.render({ canvasContext: canvas.getContext("2d"), viewport: vp, transform: dpr !== 1 ? [dpr, 0, 0, dpr, 0, 0] : null }).promise;
+      msg.hidden = true; canvas.hidden = false;
+      $("#pNum").textContent = pageNo; $("#pTot").textContent = pdf.numPages;
+      $("#pZoom").textContent = Math.round(scale * 100) + "%";
+      $("#pPrev").disabled = pageNo <= 1; $("#pNext").disabled = pageNo >= pdf.numPages;
+    } catch (e) { show("The resume could not be drawn (" + e.message + ")."); }
+    busy = false;
+    if (queued) { queued = false; render(); }
+  }
+  async function load() {
+    if (pdf || loading) return;
+    loading = true; canvas.hidden = true; msg.hidden = false; msg.textContent = "Loading resume…";
+    try {
+      let res;
+      try { res = await fetch(FILE); }
+      catch (e) { throw new Error("The file could not be read. If you opened index.html straight from your computer, run it through a local server or use the deployed site."); }
+      if (!res.ok) throw new Error(res.status === 404 ? FILE + " was not found. Upload it to the same folder as index.html." : "The server answered with error " + res.status + ".");
+      const data = await res.arrayBuffer();
+      if (!window.pdfjsLib) await new Promise((ok, no) => {
+        const sc = document.createElement("script"); sc.src = PDFJS; sc.onload = ok;
+        sc.onerror = () => no(new Error("The PDF viewer library could not load (check your connection or ad blocker)."));
+        document.head.appendChild(sc);
+      });
+      pdfjsLib.GlobalWorkerOptions.workerSrc = URL.createObjectURL(new Blob([`importScripts("${WORKER}");`], { type: "text/javascript" }));
+      pdf = await pdfjsLib.getDocument({ data }).promise;
+      if (pdf.numPages < 2) { $("#pPrev").hidden = true; $("#pNext").hidden = true; }
+      await render();
+    } catch (e) { show(e.message); }
+    loading = false;
+  }
+
+  const zoom = f => { fit = false; scale = Math.min(4, Math.max(.4, scale * f)); render(); };
+  $("#resumeBtn").onclick = () => { dlg.showModal(); document.documentElement.style.overflow = "hidden"; pdf ? render() : load(); };
+  $("#rClose").onclick = () => dlg.close();
+  dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+  dlg.addEventListener("close", () => { document.documentElement.style.overflow = ""; });
+  $("#pIn").onclick = () => zoom(1.2);
+  $("#pOut").onclick = () => zoom(1 / 1.2);
+  $("#pFit").onclick = () => { fit = true; view.scrollTo(0, 0); render(); };
+  $("#pPrev").onclick = () => { if (pageNo > 1) { pageNo--; view.scrollTo(0, 0); render(); } };
+  $("#pNext").onclick = () => { if (pdf && pageNo < pdf.numPages) { pageNo++; view.scrollTo(0, 0); render(); } };
+  $("#pPrint").onclick = () => {
+    const f = document.createElement("iframe");
+    f.style.cssText = "position:fixed;width:0;height:0;border:0;visibility:hidden";
+    f.src = FILE; f.onload = () => { try { f.contentWindow.print(); } catch (e) { window.open(FILE, "_blank"); } };
+    document.body.appendChild(f); setTimeout(() => f.remove(), 60000);
+  };
+  addEventListener("resize", () => { if (fit && dlg.open) render(); });
+})();
 
 // Theme
 $("#themeBtn").onclick = () => {
@@ -204,13 +345,32 @@ $("#chips").innerHTML = SUGGESTIONS.map(s =>
   `<button type="button" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-3 py-1 text-xs hover:border-current">${s}</button>`).join("");
 $("#chips").onclick = e => { if (e.target.tagName === "BUTTON") ask(e.target.textContent); };
 
+// Turns the assistant's plain text into short paragraphs and bullet lists (no innerHTML, so it is safe)
+function fill(box, text) {
+  box.textContent = "";
+  let list = null;
+  text.replace(/\*\*/g, "").split("\n").forEach(raw => {
+    const line = raw.trim();
+    if (!line) { list = null; return; }
+    const m = line.match(/^[-•*]\s+(.*)/);
+    if (m) {
+      if (!list) { list = document.createElement("ul"); list.className = "list-disc pl-5 space-y-1"; box.appendChild(list); }
+      const li = document.createElement("li"); li.textContent = m[1]; list.appendChild(li);
+    } else {
+      list = null;
+      const p = document.createElement("p"); p.textContent = line; box.appendChild(p);
+    }
+  });
+}
+
 function addMsg(role, text) {
   const el = document.createElement("div");
   el.className = role === "user" ? "flex justify-end" : "flex";
   const b = document.createElement("div");
-  b.className = "max-w-[85%] whitespace-pre-wrap px-3 py-2 " + (role === "user"
-    ? "bg-black text-white dark:bg-white dark:text-black" : "bg-neutral-100 dark:bg-neutral-900");
-  b.textContent = text;           // textContent: safe against HTML injection
+  b.className = "max-w-[85%] px-3 py-2 leading-relaxed space-y-2 " + (role === "user"
+    ? "whitespace-pre-wrap bg-black text-white dark:bg-white dark:text-black" : "bg-neutral-100 dark:bg-neutral-900");
+  if (role === "user") b.textContent = text;   // textContent: safe against HTML injection
+  else fill(b, text);
   el.appendChild(b); log.appendChild(el);
   log.scrollTop = log.scrollHeight;
   return el;
