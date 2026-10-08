@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PeoplePulse – Employee Attrition Analytics Dashboard | Kim Ryan Nabo</title>
+<meta name="description" content="PeoplePulse is a full-stack employee attrition analytics dashboard built by Kim Ryan Nabo with React, FastAPI, Pandas, and PostgreSQL.">
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{sans:['"Schibsted Grotesk"','system-ui','sans-serif']}}}};
+if(localStorage.theme==='dark'||(!localStorage.theme&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark');
+</script>
+<style>
+html{scroll-behavior:smooth}
+:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body class="bg-white text-black dark:bg-black dark:text-white font-sans antialiased transition-colors">
+
+<header class="sticky top-0 z-30 border-b border-neutral-200 dark:border-neutral-800 bg-white/90 dark:bg-black/90 backdrop-blur">
+  <div class="mx-auto max-w-4xl px-5 h-16 flex items-center justify-between">
+    <a href="index.html#projects" class="font-medium hover:underline underline-offset-4">← Back to portfolio</a>
+    <button id="themeBtn" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-3 py-1.5 text-sm hover:border-current" aria-label="Toggle dark mode">Theme</button>
+  </div>
+</header>
+
+<main class="mx-auto max-w-4xl px-5">
+  <section class="pt-16 pb-14">
+    <p class="text-sm uppercase tracking-widest text-neutral-500">Data Analyst project</p>
+    <h1 class="mt-3 font-black tracking-tighter leading-[.95] text-5xl sm:text-7xl">PeoplePulse</h1>
+    <p class="mt-5 max-w-2xl text-xl text-neutral-500">An employee attrition analytics dashboard that helps HR teams see who leaves, where, and what the data suggests.</p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <!-- Update both links below if your repository or live address is different -->
+      <a href="https://your-peoplepulse.vercel.app" target="_blank" rel="noopener" class="rounded-full bg-black text-white dark:bg-white dark:text-black px-6 py-3 font-medium">View live app ↗</a>
+      <a href="https://github.com/ryandcoder/peoplepulse" target="_blank" rel="noopener" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-6 py-3 font-medium hover:border-current">GitHub repository ↗</a>
+    </div>
+    <dl class="mt-12 grid gap-6 sm:grid-cols-3 border-t border-neutral-200 dark:border-neutral-800 pt-6 text-sm">
+      <div><dt class="text-neutral-500">Role</dt><dd class="mt-1 font-medium">Designer and developer (solo project)</dd></div>
+      <div><dt class="text-neutral-500">Focus</dt><dd class="mt-1 font-medium">HR analytics, careful data storytelling</dd></div>
+      <div><dt class="text-neutral-500">Data</dt><dd class="mt-1 font-medium">Fictional IBM HR dataset</dd></div>
+    </dl>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-4">Overview</h2>
+    <p class="max-w-2xl text-neutral-600 dark:text-neutral-300">Losing employees is expensive, and HR teams often learn about the pattern only after it has happened. PeoplePulse explores an HR dataset to show where attrition is highest and which employee groups stand out.</p>
+    <p class="mt-4 max-w-2xl text-neutral-600 dark:text-neutral-300">I paid special attention to not overstating what the data proves. The dashboard is built to point HR toward questions worth investigating, not to claim causes.</p>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-6">What it does</h2>
+    <ul class="grid gap-4 sm:grid-cols-2">
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Attrition overview</b><p class="mt-1 text-sm text-neutral-500">Headline figures and charts that show how many employees left and how that changes across the workforce.</p></li>
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Group comparisons</b><p class="mt-1 text-sm text-neutral-500">Compare attrition between employee groups to find where it is higher or lower.</p></li>
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Dynamic insights</b><p class="mt-1 text-sm text-neutral-500">Insights and recommendations are calculated from the data every time. None of the text is hardcoded.</p></li>
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Safe comparisons</b><p class="mt-1 text-sm text-neutral-500">Groups with fewer than 20 employees are not compared, so small samples do not create misleading results.</p></li>
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Print to PDF</b><p class="mt-1 text-sm text-neutral-500">Turn the dashboard into a clean report to share with others.</p></li>
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Comfortable dark theme</b><p class="mt-1 text-sm text-neutral-500">A dark mode that is easy on the eyes instead of pure black.</p></li>
+    </ul>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-4">My analytical rules</h2>
+    <ul class="list-disc pl-5 space-y-2 max-w-2xl text-neutral-600 dark:text-neutral-300">
+      <li><b>Correlation is not causation.</b> The dashboard shows patterns and says so plainly instead of claiming reasons.</li>
+      <li><b>Minimum group size of 20.</b> Small groups are left out of comparisons.</li>
+      <li><b>No hardcoded conclusions.</b> Every insight is computed from the current data.</li>
+      <li><b>No prediction model, on purpose.</b> I focused on describing what happened before trying to forecast it.</li>
+    </ul>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-6">How it is built</h2>
+    <div class="grid gap-3 sm:grid-cols-[1fr_auto_1fr_auto_1fr] sm:items-center text-center text-sm">
+      <div class="border border-neutral-300 dark:border-neutral-700 p-4"><b>Frontend</b><br><span class="text-neutral-500">React · TypeScript · Vite · Tailwind · Recharts</span></div>
+      <span class="text-neutral-500" aria-hidden="true">→</span>
+      <div class="border border-neutral-300 dark:border-neutral-700 p-4"><b>API</b><br><span class="text-neutral-500">Python · FastAPI · Pandas</span></div>
+      <span class="text-neutral-500" aria-hidden="true">→</span>
+      <div class="border border-neutral-300 dark:border-neutral-700 p-4"><b>Database</b><br><span class="text-neutral-500">PostgreSQL</span></div>
+    </div>
+    <p class="mt-6 max-w-2xl text-neutral-600 dark:text-neutral-300">The whole stack runs locally with one command, <code class="font-mono text-sm">docker compose up --build</code>, so anyone can try the project without installing each piece by hand.</p>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-4">The data</h2>
+    <p class="max-w-2xl text-neutral-600 dark:text-neutral-300">PeoplePulse uses the <b>IBM HR Analytics Employee Attrition &amp; Performance</b> dataset: about 1,470 employee records with 35 columns. It is a <b>fictional dataset</b> created for analysis practice, so nothing here describes a real company or real people.</p>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-4">What I learned</h2>
+    <ul class="list-disc pl-5 space-y-2 max-w-2xl text-neutral-600 dark:text-neutral-300">
+      <li>How to present HR data responsibly: showing patterns without implying causes.</li>
+      <li>Why sample size matters, and how a minimum group size protects readers from noise.</li>
+      <li>Generating insight text from the data itself so it stays correct when the data changes.</li>
+      <li>Packaging a multi-part app with Docker Compose so it is easy to run anywhere.</li>
+    </ul>
+    <h3 class="mt-8 font-bold">Next improvements</h3>
+    <p class="mt-2 max-w-2xl text-neutral-600 dark:text-neutral-300">Attrition prediction, employee segmentation, time-based HR data, and cost-of-attrition analysis.</p>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800 mb-8">
+    <div class="flex flex-wrap gap-3">
+      <a href="https://your-peoplepulse.vercel.app" target="_blank" rel="noopener" class="rounded-full bg-black text-white dark:bg-white dark:text-black px-6 py-3 font-medium">View live app ↗</a>
+      <a href="https://github.com/ryandcoder/peoplepulse" target="_blank" rel="noopener" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-6 py-3 font-medium hover:border-current">GitHub repository ↗</a>
+      <a href="index.html#projects" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-6 py-3 font-medium hover:border-current">More projects</a>
+    </div>
+  </section>
+</main>
+<footer class="border-t border-neutral-200 dark:border-neutral-800 py-8 text-center text-sm text-neutral-500">© <span id="yr"></span> Kim Ryan Nabo</footer>
+
+<script>
+document.getElementById("yr").textContent = new Date().getFullYear();
+document.getElementById("themeBtn").onclick = () => {
+  const dark = document.documentElement.classList.toggle("dark");
+  localStorage.theme = dark ? "dark" : "light";
+};
+</script>
+</body>
+</html>

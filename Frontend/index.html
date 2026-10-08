@@ -69,7 +69,6 @@ html{scroll-behavior:smooth;scroll-padding-top:72px}
       <li class="rounded-full border border-neutral-300 dark:border-neutral-700 px-4 py-1">Cisco Packet Tracer</li>
       <li class="rounded-full border border-neutral-300 dark:border-neutral-700 px-4 py-1">Windows Troubleshooting</li>
       <li class="rounded-full border border-neutral-300 dark:border-neutral-700 px-4 py-1">Data Visualization</li>
-      <li class="rounded-full border border-neutral-300 dark:border-neutral-700 px-4 py-1">Data Analytics</li>
     </ul>
   </section>
 
@@ -180,6 +179,7 @@ const $ = s => document.querySelector(s);
 const TABS = ["Data Analyst", "Personal", "School"];
 const PROJECTS = [
   {cat:"Data Analyst", t:"SupportIQ – IT Support Analytics Dashboard", c:"Full-stack · Data analytics", d:"Ticket analytics dashboard with filters, insights, and CSV upload, built on a real IT support ticket dataset.", k:"React · TypeScript · FastAPI · Pandas · PostgreSQL", page:"supportiq.html"},
+  {cat:"Data Analyst", t:"PeoplePulse – Employee Attrition Dashboard", c:"Full-stack · HR analytics", d:"Attrition analytics dashboard with group comparisons and insights computed from the data, built on a fictional IBM HR dataset.", k:"React · TypeScript · FastAPI · Pandas · PostgreSQL", page:"peoplepulse.html", bars:[70,50,85,40,60,45,75]},
   {cat:"Personal", t:"Movie Database Application", c:"Web app", d:"Responsive movie discovery app showing details, cast, trailers, and images from the TMDB API.", k:"React · TMDB API · PHP · MySQL"},
   {cat:"Personal", t:"Card Management Library", c:"Team project", d:"Web platform for organizing and managing collectible card data, with responsive interfaces.", k:"React · TypeScript · Convex · Node.js · Figma"},
   {cat:"School", t:"Academic Clearance System", c:"Full-stack", d:"Digital student clearance with real-time status tracking and centralized approval workflows.", k:"React · Node.js · Firebase"},
@@ -198,7 +198,7 @@ const card = p => {
   const href = p.page || p.live || p.github;
   return `<a href="${href}" class="group block">
     <div class="aspect-[4/3] bg-black dark:bg-neutral-900 flex items-end justify-center gap-2 px-8 pb-8 transition-transform group-hover:scale-[.98]" aria-hidden="true">
-      ${[35,60,45,80,55,95,70].map(h => `<span class="w-full bg-white" style="height:${h}%"></span>`).join("")}
+      ${(p.bars || [35,60,45,80,55,95,70]).map(h => `<span class="w-full bg-white" style="height:${h}%"></span>`).join("")}
     </div>
     <h3 class="mt-3 font-bold">${p.t}</h3>
     <p class="text-sm text-neutral-500">${p.c}</p>
