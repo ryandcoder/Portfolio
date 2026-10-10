@@ -17,6 +17,10 @@ html{scroll-behavior:smooth;scroll-padding-top:72px}
 [hidden]{display:none!important}
 #panel{display:flex;flex-direction:column;width:min(380px,calc(100vw - 2rem));height:min(560px,calc(100vh - 6.5rem));height:min(560px,calc(100dvh - 6.5rem));max-width:100%}
 #input{font-size:16px}
+.slider{display:flex;gap:1.5rem;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:.25rem}
+.slider::-webkit-scrollbar{display:none}
+.slide{flex:0 0 85%;scroll-snap-align:start}
+@media(min-width:640px){.slide{flex-basis:calc(50% - .75rem)}}
 #resumeDlg{width:min(900px,96vw);height:min(94vh,1100px);height:min(94dvh,1100px);max-width:none;max-height:none;padding:0;margin:auto}
 #resumeDlg[open]{display:flex;flex-direction:column}
 #resumeDlg::backdrop{background:rgba(0,0,0,.65)}
@@ -91,7 +95,12 @@ html{scroll-behavior:smooth;scroll-padding-top:72px}
   <section id="projects" class="py-16 border-t border-neutral-200 dark:border-neutral-800">
     <h2 class="text-2xl font-bold tracking-tight mb-8">Projects</h2>
     <div id="tabs" role="tablist" aria-label="Project categories" class="flex flex-wrap gap-2 mb-8"></div>
-    <div id="grid" role="tabpanel" class="grid gap-8 sm:grid-cols-2"></div>
+    <div id="grid" role="tabpanel" tabindex="0" class="slider" aria-label="Projects, swipe or use the arrows"></div>
+    <div id="sliderNav" class="mt-6 flex items-center gap-3">
+      <button id="sPrev" type="button" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-4 py-2 hover:border-current disabled:opacity-40" aria-label="Previous projects">←</button>
+      <button id="sNext" type="button" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-4 py-2 hover:border-current disabled:opacity-40" aria-label="Next projects">→</button>
+      <span id="sCount" class="text-sm text-neutral-500 tabular-nums" aria-live="polite"></span>
+    </div>
   </section>
 
   <section id="education" class="py-16 border-t border-neutral-200 dark:border-neutral-800">
@@ -180,6 +189,7 @@ const TABS = ["Data Analyst", "Personal", "School"];
 const PROJECTS = [
   {cat:"Data Analyst", t:"SupportIQ – IT Support Analytics Dashboard", c:"Full-stack · Data analytics", d:"Ticket analytics dashboard with filters, insights, and CSV upload, built on a real IT support ticket dataset.", k:"React · TypeScript · FastAPI · Pandas · PostgreSQL", page:"supportiq.html"},
   {cat:"Data Analyst", t:"PeoplePulse – Employee Attrition Dashboard", c:"Full-stack · HR analytics", d:"Attrition analytics dashboard with group comparisons and insights computed from the data, built on a fictional IBM HR dataset.", k:"React · TypeScript · FastAPI · Pandas · PostgreSQL", page:"peoplepulse.html", bars:[70,50,85,40,60,45,75]},
+  {cat:"Data Analyst", t:"SalesCast – Sales Forecasting Dashboard", c:"Full-stack · Forecasting", d:"Forecasts sales with Holt-Winters, tests it against a baseline, and turns the results into business recommendations.", k:"React · TypeScript · FastAPI · statsmodels · PostgreSQL", page:"salescast.html", bars:[30,38,35,48,55,62,75]},
   {cat:"Personal", t:"Movie Database Application", c:"Web app", d:"Responsive movie discovery app showing details, cast, trailers, and images from the TMDB API.", k:"React · TMDB API · PHP · MySQL"},
   {cat:"Personal", t:"Card Management Library", c:"Team project", d:"Web platform for organizing and managing collectible card data, with responsive interfaces.", k:"React · TypeScript · Convex · Node.js · Figma"},
   {cat:"School", t:"Academic Clearance System", c:"Full-stack", d:"Digital student clearance with real-time status tracking and centralized approval workflows.", k:"React · Node.js · Firebase"},
@@ -188,7 +198,7 @@ const PROJECTS = [
 const CONE = '<svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 3h5l4.2 15h-13.4z"/><path d="M7.6 11h8.8M6.4 15h11.2"/><path d="M3 21h18"/></svg>';
 const hasLink = p => p.page || p.github || p.live;
 // Projects without a link show only an "Incoming" placeholder (no name or details) until a link is added.
-const incoming = () => `<div class="group block" role="img" aria-label="Incoming project">
+const incoming = () => `<div class="slide group block" role="img" aria-label="Incoming project">
   <div class="aspect-[4/3] flex flex-col items-center justify-center gap-3 border border-dashed border-neutral-400 dark:border-neutral-600 bg-neutral-100 dark:bg-neutral-900 text-neutral-500"
     style="background-image:repeating-linear-gradient(-45deg,rgba(128,128,128,.14) 0 10px,transparent 10px 20px)">
     ${CONE}<span class="text-sm font-medium tracking-widest uppercase">Incoming</span>
@@ -196,7 +206,7 @@ const incoming = () => `<div class="group block" role="img" aria-label="Incoming
 const card = p => {
   if (!hasLink(p)) return incoming();
   const href = p.page || p.live || p.github;
-  return `<a href="${href}" class="group block">
+  return `<a href="${href}" class="slide group block">
     <div class="aspect-[4/3] bg-black dark:bg-neutral-900 flex items-end justify-center gap-2 px-8 pb-8 transition-transform group-hover:scale-[.98]" aria-hidden="true">
       ${(p.bars || [35,60,45,80,55,95,70]).map(h => `<span class="w-full bg-white" style="height:${h}%"></span>`).join("")}
     </div>
@@ -222,6 +232,22 @@ $("#tabs").onkeydown = e => {
     document.getElementById("tab-" + TABS.indexOf(tab)).focus();
   }
 };
+const slider = $("#grid"), sNav = $("#sliderNav");
+const slideStep = () => (slider.firstElementChild ? slider.firstElementChild.offsetWidth : 300) + 24;
+const calm = () => matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+function updateNav() {
+  const max = slider.scrollWidth - slider.clientWidth;
+  sNav.hidden = max < 4;            // everything fits: no arrows needed
+  $("#sPrev").disabled = slider.scrollLeft < 4;
+  $("#sNext").disabled = slider.scrollLeft > max - 4;
+  $("#sCount").textContent = (Math.round(slider.scrollLeft / slideStep()) + 1) + " / " + slider.children.length;
+}
+$("#sPrev").onclick = () => slider.scrollBy({ left: -slideStep(), behavior: calm() });
+$("#sNext").onclick = () => slider.scrollBy({ left: slideStep(), behavior: calm() });
+slider.addEventListener("scroll", updateNav, { passive: true });
+addEventListener("resize", updateNav);
+const _draw = drawProjects;
+drawProjects = function () { _draw(); slider.scrollLeft = 0; updateNav(); };
 drawProjects();
 const CERTS = [
   ["Data Analytics", "IT Specialist", "2026"],

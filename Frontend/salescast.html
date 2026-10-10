@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SalesCast – Sales Forecasting Dashboard | Kim Ryan Nabo</title>
+<meta name="description" content="SalesCast is a full-stack sales forecasting dashboard built by Kim Ryan Nabo with React, FastAPI, statsmodels, and PostgreSQL.">
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{sans:['"Schibsted Grotesk"','system-ui','sans-serif']}}}};
+if(localStorage.theme==='dark'||(!localStorage.theme&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark');
+</script>
+<style>
+html{scroll-behavior:smooth}
+:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body class="bg-white text-black dark:bg-black dark:text-white font-sans antialiased transition-colors">
+
+<header class="sticky top-0 z-30 border-b border-neutral-200 dark:border-neutral-800 bg-white/90 dark:bg-black/90 backdrop-blur">
+  <div class="mx-auto max-w-4xl px-5 h-16 flex items-center justify-between">
+    <a href="index.html#projects" class="font-medium hover:underline underline-offset-4">← Back to portfolio</a>
+    <button id="themeBtn" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-3 py-1.5 text-sm hover:border-current" aria-label="Toggle dark mode">Theme</button>
+  </div>
+</header>
+
+<main class="mx-auto max-w-4xl px-5">
+  <section class="pt-16 pb-14">
+    <p class="text-sm uppercase tracking-widest text-neutral-500">Data Analyst project</p>
+    <h1 class="mt-3 font-black tracking-tighter leading-[.95] text-5xl sm:text-7xl">SalesCast</h1>
+    <p class="mt-5 max-w-2xl text-xl text-neutral-500">A sales forecasting dashboard that turns past sales into a forecast and plain-language business recommendations.</p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <!-- Update both links below if your repository or live address is different -->
+      <a href="https://your-salescast.vercel.app" target="_blank" rel="noopener" class="rounded-full bg-black text-white dark:bg-white dark:text-black px-6 py-3 font-medium">View live app ↗</a>
+      <a href="https://github.com/ryandcoder/salescast" target="_blank" rel="noopener" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-6 py-3 font-medium hover:border-current">GitHub repository ↗</a>
+    </div>
+    <dl class="mt-12 grid gap-6 sm:grid-cols-3 border-t border-neutral-200 dark:border-neutral-800 pt-6 text-sm">
+      <div><dt class="text-neutral-500">Role</dt><dd class="mt-1 font-medium">Designer and developer (solo project)</dd></div>
+      <div><dt class="text-neutral-500">Focus</dt><dd class="mt-1 font-medium">Forecasting and business recommendations</dd></div>
+      <div><dt class="text-neutral-500">Data</dt><dd class="mt-1 font-medium">Synthetic, clearly labeled</dd></div>
+    </dl>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-4">Overview</h2>
+    <p class="max-w-2xl text-neutral-600 dark:text-neutral-300">Businesses plan stock, staffing, and budgets around what they expect to sell. SalesCast takes historical sales, explains what has been happening, forecasts the coming months, and says what the numbers mean for the business.</p>
+    <p class="mt-4 max-w-2xl text-neutral-600 dark:text-neutral-300">My priorities were correct analysis first, a clear interface second, and complicated machine learning last. I kept the model simple enough to explain and tested it honestly.</p>
+    <ol class="mt-8 grid gap-2 sm:grid-cols-5 text-center"><li class="border border-neutral-300 dark:border-neutral-700 px-4 py-3 text-sm font-medium">1. Historical data</li><li class="border border-neutral-300 dark:border-neutral-700 px-4 py-3 text-sm font-medium">2. Analysis</li><li class="border border-neutral-300 dark:border-neutral-700 px-4 py-3 text-sm font-medium">3. Forecast</li><li class="border border-neutral-300 dark:border-neutral-700 px-4 py-3 text-sm font-medium">4. Visualization</li><li class="border border-neutral-300 dark:border-neutral-700 px-4 py-3 text-sm font-medium">5. Recommendation</li></ol>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-6">What it does</h2>
+    <ul class="grid gap-4 sm:grid-cols-2">
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Sales KPIs</b><p class="mt-1 text-sm text-neutral-500">Headline figures that summarize overall sales performance.</p></li>
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Category, product, and region analysis</b><p class="mt-1 text-sm text-neutral-500">See which parts of the business drive sales.</p></li>
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Trend and seasonality</b><p class="mt-1 text-sm text-neutral-500">Trend lines with a 3-month moving average, plus the seasonal pattern in the data.</p></li>
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Forecast with a range</b><p class="mt-1 text-sm text-neutral-500">Forecast for 3, 6, or 12 months (6 by default) with prediction intervals that show the uncertainty.</p></li>
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Filters</b><p class="mt-1 text-sm text-neutral-500">Filter by date, category, product, or region. The forecast is labeled as overall or filtered so it is never misread.</p></li>
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Insights and recommendations</b><p class="mt-1 text-sm text-neutral-500">Written from the data each time. None of it is hardcoded. An inventory signal is included and marked as informational only.</p></li>
+    </ul>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-4">How the forecast is checked</h2>
+    <p class="max-w-2xl text-neutral-600 dark:text-neutral-300">The main model is <b>Holt-Winters</b> (exponential smoothing with trend and seasonality), using statsmodels. A forecast is only useful if you know how wrong it can be, so I tested it honestly:</p>
+    <ul class="mt-4 list-disc pl-5 space-y-2 max-w-2xl text-neutral-600 dark:text-neutral-300">
+      <li>The data is split <b>80/20</b> into training and test sets, and the model is scored on data it has not seen.</li>
+      <li>Accuracy is reported with <b>MAE, RMSE, and MAPE</b>.</li>
+      <li>The model is compared with a <b>naive baseline</b>, so a fancy method has to beat a simple guess to be trusted.</li>
+      <li>Forecasts include <b>prediction intervals</b> instead of a single confident line.</li>
+    </ul>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-6">How it is built</h2>
+    <div class="grid gap-3 sm:grid-cols-[1fr_auto_1fr_auto_1fr] sm:items-center text-center text-sm">
+      <div class="border border-neutral-300 dark:border-neutral-700 p-4"><b>Frontend</b><br><span class="text-neutral-500">React · TypeScript · Vite · Tailwind · Recharts</span></div>
+      <span class="text-neutral-500" aria-hidden="true">→</span>
+      <div class="border border-neutral-300 dark:border-neutral-700 p-4"><b>API</b><br><span class="text-neutral-500">FastAPI · Pandas · NumPy · scikit-learn · statsmodels</span></div>
+      <span class="text-neutral-500" aria-hidden="true">→</span>
+      <div class="border border-neutral-300 dark:border-neutral-700 p-4"><b>Database</b><br><span class="text-neutral-500">PostgreSQL</span></div>
+    </div>
+    <p class="mt-6 max-w-2xl text-neutral-600 dark:text-neutral-300">The whole stack runs locally with one command, <code class="font-mono text-sm">docker compose up --build</code>.</p>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-4">The data</h2>
+    <p class="max-w-2xl text-neutral-600 dark:text-neutral-300">SalesCast uses a <b>synthetic sales dataset</b> that I generated for this project, and the app says so. It has multi-year sales records with an order date, product, category, region, quantity, unit price, discount, and sales amount. I did not invent profit figures. Nothing in it describes a real business.</p>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-4">What I learned</h2>
+    <ul class="list-disc pl-5 space-y-2 max-w-2xl text-neutral-600 dark:text-neutral-300">
+      <li>How to evaluate a forecast fairly: a held-out test set, error measures, and a baseline to beat.</li>
+      <li>Why showing uncertainty with prediction intervals is more honest than one line.</li>
+      <li>Working with seasonality and trend in time-series data.</li>
+      <li>Being open about synthetic data and about which signals are only informational.</li>
+    </ul>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800 mb-8">
+    <div class="flex flex-wrap gap-3">
+      <a href="https://your-salescast.vercel.app" target="_blank" rel="noopener" class="rounded-full bg-black text-white dark:bg-white dark:text-black px-6 py-3 font-medium">View live app ↗</a>
+      <a href="https://github.com/ryandcoder/salescast" target="_blank" rel="noopener" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-6 py-3 font-medium hover:border-current">GitHub repository ↗</a>
+      <a href="index.html#projects" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-6 py-3 font-medium hover:border-current">More projects</a>
+    </div>
+  </section>
+</main>
+<footer class="border-t border-neutral-200 dark:border-neutral-800 py-8 text-center text-sm text-neutral-500">© <span id="yr"></span> Kim Ryan Nabo</footer>
+
+<script>
+document.getElementById("yr").textContent = new Date().getFullYear();
+document.getElementById("themeBtn").onclick = () => {
+  const dark = document.documentElement.classList.toggle("dark");
+  localStorage.theme = dark ? "dark" : "light";
+};
+</script>
+</body>
+</html>
