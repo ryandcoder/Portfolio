@@ -7,6 +7,7 @@
 <meta name="description" content="PeoplePulse is a full-stack employee attrition analytics dashboard built by Kim Ryan Nabo with React, FastAPI, Pandas, and PostgreSQL.">
 <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="motion-init.js"></script>
 <script>
 tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{sans:['"Schibsted Grotesk"','system-ui','sans-serif']}}}};
 if(localStorage.theme==='dark'||(!localStorage.theme&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark');
@@ -26,7 +27,7 @@ html{scroll-behavior:smooth}
   </div>
 </header>
 
-<main class="mx-auto max-w-4xl px-5">
+<main data-anim="case" class="mx-auto max-w-4xl px-5">
   <section class="pt-16 pb-14">
     <p class="text-sm uppercase tracking-widest text-neutral-500">Data Analyst project</p>
     <h1 class="mt-3 font-black tracking-tighter leading-[.95] text-5xl sm:text-7xl">PeoplePulse</h1>
@@ -117,5 +118,6 @@ document.getElementById("themeBtn").onclick = () => {
   localStorage.theme = dark ? "dark" : "light";
 };
 </script>
+<script src="motion-effects.js" defer></script>
 </body>
 </html>

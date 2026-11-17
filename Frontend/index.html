@@ -7,6 +7,7 @@
 <meta name="description" content="Portfolio of Kim Ryan Nabo, Computer Science graduate in web development, data analytics, and IT support. Includes an AI assistant that answers questions about my work.">
 <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="motion-init.js"></script>
 <script>
 tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{sans:['"Schibsted Grotesk"','system-ui','sans-serif']}}}};
 if(localStorage.theme==='dark'||(!localStorage.theme&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark');
@@ -442,5 +443,6 @@ async function ask(text) {
 }
 $("#form").onsubmit = e => { e.preventDefault(); ask(input.value); };
 </script>
+<script src="motion-effects.js" defer></script>
 </body>
 </html>
