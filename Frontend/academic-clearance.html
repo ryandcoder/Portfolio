@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Academic Clearance – Student Clearance System | Kim Ryan Nabo</title>
+<meta name="description" content="Academic Clearance is a web-based student clearance management system by Kim Ryan Nabo built with React, Tailwind CSS, and Firebase to streamline department approvals and track clearance status in real time.">
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="motion-init.js"></script>
+<script>
+tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{sans:['"Schibsted Grotesk"','system-ui','sans-serif']}}}};
+if(localStorage.theme==='dark'||(!localStorage.theme&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark');
+</script>
+<style>
+html{scroll-behavior:smooth}
+:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body class="bg-white text-black dark:bg-black dark:text-white font-sans antialiased transition-colors">
+
+<header class="sticky top-0 z-30 border-b border-neutral-200 dark:border-neutral-800 bg-white/90 dark:bg-black/90 backdrop-blur">
+  <div class="mx-auto max-w-4xl px-5 h-16 flex items-center justify-between">
+    <a href="index.html#projects" class="font-medium hover:underline underline-offset-4">← Back to portfolio</a>
+    <button id="themeBtn" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-3 py-1.5 text-sm hover:border-current" aria-label="Toggle dark mode">Theme</button>
+  </div>
+</header>
+
+<main data-anim="case" class="mx-auto max-w-4xl px-5">
+  <section class="pt-16 pb-14">
+    <p class="text-sm uppercase tracking-widest text-neutral-500">Academic project</p>
+    <h1 class="mt-3 font-black tracking-tighter leading-[.95] text-5xl sm:text-7xl">Academic Clearance</h1>
+    <p class="mt-5 max-w-2xl text-xl text-neutral-500">A web-based clearance management system that replaces paper routing slips with real-time department approvals and status tracking.</p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href="https://academic-clearance.web.app/" target="_blank" rel="noopener" class="rounded-full bg-black text-white dark:bg-white dark:text-black px-6 py-3 font-medium">Live demo ↗</a>
+      <a href="https://github.com/Ryannabo/Academic-Clearance" target="_blank" rel="noopener" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-6 py-3 font-medium hover:border-current">GitHub repository ↗</a>
+    </div>
+    <dl class="mt-12 grid gap-6 sm:grid-cols-3 border-t border-neutral-200 dark:border-neutral-800 pt-6 text-sm">
+      <div><dt class="text-neutral-500">Role</dt><dd class="mt-1 font-medium">Front-end &amp; Firebase developer</dd></div>
+      <div><dt class="text-neutral-500">Stack</dt><dd class="mt-1 font-medium">React · JavaScript · Tailwind · Firebase</dd></div>
+      <div><dt class="text-neutral-500">Category</dt><dd class="mt-1 font-medium">Institutional web application</dd></div>
+    </dl>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-4">Overview</h2>
+    <p class="max-w-2xl text-neutral-600 dark:text-neutral-300">Traditional school clearance requires students to carry physical forms across multiple offices, leading to long queues, lost paperwork, and unclear approval statuses. Academic Clearance moves that entire workflow online.</p>
+    <p class="mt-4 max-w-2xl text-neutral-600 dark:text-neutral-300">Built for clarity and speed, the system gives students a single dashboard to track requirements while providing faculty, office signatories, and administrators an organized interface to review, flag, or approve records.</p>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-6">What it does</h2>
+    <ul class="grid gap-4 sm:grid-cols-2">
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Role-based access</b><p class="mt-1 text-sm text-neutral-500">Separate views and permissions powered by Firebase Authentication for department signatories and administrators.</p></li>
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Real-time clearance tracking</b><p class="mt-1 text-sm text-neutral-500">Students can view pending, flagged, and cleared statuses across every required office in one place.</p></li>
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Department sign-off queue</b><p class="mt-1 text-sm text-neutral-500">Signatories can filter student records, add deficiency remarks, and approve clearances efficiently.</p></li>
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Requirement &amp; deficiency notes</b><p class="mt-1 text-sm text-neutral-500">Clear feedback explains exactly what a student needs to resolve before an office signs off.</p></li>
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Centralized student records &amp; files</b><p class="mt-1 text-sm text-neutral-500">Manages student lists, departments, clearance progress, and supporting documents via Firebase Storage.</p></li>
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Paperless audit trail</b><p class="mt-1 text-sm text-neutral-500">Eliminates misplaced clearance cards by recording approval states and updates digitally.</p></li>
+    </ul>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <div class="flex flex-wrap items-baseline justify-between gap-2 mb-2">
+      <h2 class="text-2xl font-bold tracking-tight">Test &amp; demo accounts</h2>
+      <a href="https://academic-clearance.web.app/" target="_blank" rel="noopener" class="text-sm font-medium underline underline-offset-4 hover:text-neutral-500">Open live app ↗</a>
+    </div>
+    <p class="max-w-2xl text-sm text-neutral-500 mb-6">Use these test credentials on the live demo to verify role-based access across departments and administration.</p>
+    <div class="grid gap-4 sm:grid-cols-3">
+      <div class="border border-neutral-200 dark:border-neutral-800 p-5 flex flex-col justify-between gap-4">
+        <div>
+          <p class="text-xs uppercase tracking-widest text-neutral-500">Library</p>
+          <p class="mt-2 text-sm"><span class="text-neutral-500">Email:</span> <span class="font-mono font-medium">lib@mail.com</span></p>
+          <p class="mt-1 text-sm"><span class="text-neutral-500">Password:</span> <span class="font-mono font-medium">123456</span></p>
+        </div>
+        <button type="button" data-copy="lib@mail.com" class="copy-btn self-start rounded-full border border-neutral-300 dark:border-neutral-700 px-3.5 py-1.5 text-xs font-medium hover:border-current transition-colors">Copy email</button>
+      </div>
+
+      <div class="border border-neutral-200 dark:border-neutral-800 p-5 flex flex-col justify-between gap-4">
+        <div>
+          <p class="text-xs uppercase tracking-widest text-neutral-500">Finance</p>
+          <p class="mt-2 text-sm"><span class="text-neutral-500">Email:</span> <span class="font-mono font-medium">fin@mail.com</span></p>
+          <p class="mt-1 text-sm"><span class="text-neutral-500">Password:</span> <span class="font-mono font-medium">123456</span></p>
+        </div>
+        <button type="button" data-copy="fin@mail.com" class="copy-btn self-start rounded-full border border-neutral-300 dark:border-neutral-700 px-3.5 py-1.5 text-xs font-medium hover:border-current transition-colors">Copy email</button>
+      </div>
+
+      <div class="border border-neutral-200 dark:border-neutral-800 p-5 flex flex-col justify-between gap-4">
+        <div>
+          <p class="text-xs uppercase tracking-widest text-neutral-500">Admin</p>
+          <p class="mt-2 text-sm"><span class="text-neutral-500">Email:</span> <span class="font-mono font-medium">admin@mail.com</span></p>
+          <p class="mt-1 text-sm"><span class="text-neutral-500">Password:</span> <span class="font-mono font-medium">123456</span></p>
+        </div>
+        <button type="button" data-copy="admin@mail.com" class="copy-btn self-start rounded-full border border-neutral-300 dark:border-neutral-700 px-3.5 py-1.5 text-xs font-medium hover:border-current transition-colors">Copy email</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-4">Design direction</h2>
+    <ul class="list-disc pl-5 space-y-2 max-w-2xl text-neutral-600 dark:text-neutral-300">
+      <li><b>Status-first hierarchy.</b> Clearance states (cleared, pending, deficient) are immediately readable without digging through menus.</li>
+      <li><b>Minimalist, distraction-free layout.</b> Styled with Tailwind CSS, high-contrast typography, and clean tables to keep dense administrative data easy to scan.</li>
+      <li><b>Task-focused workflows.</b> Built with React components to minimize clicks for signatories processing multiple student requests.</li>
+      <li><b>Responsive across devices.</b> Accessible on both desktop workstations in offices and mobile phones for students checking updates.</li>
+    </ul>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-6">How it is built</h2>
+    <div class="grid gap-3 sm:grid-cols-[1fr_auto_1fr_auto_1fr] sm:items-center text-center text-sm">
+      <div class="border border-neutral-300 dark:border-neutral-700 p-4"><b>Frontend UI</b><br><span class="text-neutral-500">React · JavaScript · Tailwind</span></div>
+      <span class="text-neutral-500" aria-hidden="true">→</span>
+      <div class="border border-neutral-300 dark:border-neutral-700 p-4"><b>Auth &amp; Storage</b><br><span class="text-neutral-500">Firebase Auth · Firebase Storage</span></div>
+      <span class="text-neutral-500" aria-hidden="true">→</span>
+      <div class="border border-neutral-300 dark:border-neutral-700 p-4"><b>Deployment</b><br><span class="text-neutral-500">Firebase Hosting</span></div>
+    </div>
+    <p class="mt-6 max-w-2xl text-neutral-600 dark:text-neutral-300">Built using React, JavaScript, HTML, CSS, and Tailwind CSS for the interface layer, paired with Firebase Authentication for user sign-in, Firebase Storage for file handling, and Firebase Hosting for web deployment.</p>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-4">What I learned</h2>
+    <ul class="list-disc pl-5 space-y-2 max-w-2xl text-neutral-600 dark:text-neutral-300">
+      <li>Structuring React state and UI flows around multi-department clearance statuses and role permissions.</li>
+      <li>Integrating Firebase Authentication and Firebase Storage into a client-side web application.</li>
+      <li>Translating a multi-step real-world administrative workflow into a clear, predictable digital state machine.</li>
+      <li>Designing responsive, accessible interfaces with Tailwind CSS capable of displaying tabular records and status indicators without visual clutter.</li>
+    </ul>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800 mb-8">
+    <div class="flex flex-wrap gap-3">
+      <a href="https://academic-clearance.web.app/" target="_blank" rel="noopener" class="rounded-full bg-black text-white dark:bg-white dark:text-black px-6 py-3 font-medium">Live demo ↗</a>
+      <a href="https://github.com/Ryannabo/Academic-Clearance" target="_blank" rel="noopener" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-6 py-3 font-medium hover:border-current">GitHub repository ↗</a>
+      <a href="index.html#projects" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-6 py-3 font-medium hover:border-current">More projects</a>
+    </div>
+  </section>
+</main>
+<footer class="border-t border-neutral-200 dark:border-neutral-800 py-8 text-center text-sm text-neutral-500">© <span id="yr"></span> Kim Ryan Nabo</footer>
+
+<script>
+document.getElementById("yr").textContent = new Date().getFullYear();
+document.getElementById("themeBtn").onclick = () => {
+  const dark = document.documentElement.classList.toggle("dark");
+  localStorage.theme = dark ? "dark" : "light";
+};
+
+document.querySelectorAll(".copy-btn").forEach((btn) => {
+  btn.addEventListener("click", async () => {
+    const text = btn.getAttribute("data-copy");
+    try {
+      await navigator.clipboard.writeText(text);
+      const original = btn.textContent;
+      btn.textContent = "Copied!";
+      setTimeout(() => { btn.textContent = original; }, 1500);
+    } catch (_) {
+      btn.textContent = text;
+    }
+  });
+});
+</script>
+<script src="motion-effects.js" defer></script>
+</body>
+</html>
