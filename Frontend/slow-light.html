@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Slow Light – Photography Album | Kim Ryan Nabo</title>
+<meta name="description" content="Slow Light is a black-and-white photography album website by Kim Ryan Nabo, with a cover-first opening, scroll animation, and likes and comments on every photo.">
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="motion-init.js"></script>
+<script>
+tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{sans:['"Schibsted Grotesk"','system-ui','sans-serif']}}}};
+if(localStorage.theme==='dark'||(!localStorage.theme&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark');
+</script>
+<style>
+html{scroll-behavior:smooth}
+:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body class="bg-white text-black dark:bg-black dark:text-white font-sans antialiased transition-colors">
+
+<header class="sticky top-0 z-30 border-b border-neutral-200 dark:border-neutral-800 bg-white/90 dark:bg-black/90 backdrop-blur">
+  <div class="mx-auto max-w-4xl px-5 h-16 flex items-center justify-between">
+    <a href="index.html#projects" class="font-medium hover:underline underline-offset-4">← Back to portfolio</a>
+    <button id="themeBtn" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-3 py-1.5 text-sm hover:border-current" aria-label="Toggle dark mode">Theme</button>
+  </div>
+</header>
+
+<main data-anim="case" class="mx-auto max-w-4xl px-5">
+  <section class="pt-16 pb-14">
+    <p class="text-sm uppercase tracking-widest text-neutral-500">Personal project</p>
+    <h1 class="mt-3 font-black tracking-tighter leading-[.95] text-5xl sm:text-7xl">Slow Light</h1>
+    <p class="mt-5 max-w-2xl text-xl text-neutral-500">A black-and-white photography album that opens on a single cover photo and lets visitors like and comment on every picture.</p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <!-- Update both links below if your repository or live address is different -->
+      <a href="https://your-slow-light.vercel.app" target="_blank" rel="noopener" class="rounded-full bg-black text-white dark:bg-white dark:text-black px-6 py-3 font-medium">View live site ↗</a>
+      <a href="https://github.com/ryandcoder/slow-light" target="_blank" rel="noopener" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-6 py-3 font-medium hover:border-current">GitHub repository ↗</a>
+    </div>
+    <dl class="mt-12 grid gap-6 sm:grid-cols-3 border-t border-neutral-200 dark:border-neutral-800 pt-6 text-sm">
+      <div><dt class="text-neutral-500">Role</dt><dd class="mt-1 font-medium">Designer and developer (solo project)</dd></div>
+      <div><dt class="text-neutral-500">Focus</dt><dd class="mt-1 font-medium">Web design, interaction, full-stack</dd></div>
+      <div><dt class="text-neutral-500">Style</dt><dd class="mt-1 font-medium">Black-and-white film and magazine look</dd></div>
+    </dl>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-4">Overview</h2>
+    <p class="max-w-2xl text-neutral-600 dark:text-neutral-300">Most photo sites are a grid of thumbnails to skim. I designed Slow Light as an album you move through slowly: it opens on one cover photo, then the pictures appear as you scroll.</p>
+    <p class="mt-4 max-w-2xl text-neutral-600 dark:text-neutral-300">I wanted it to be creative and stylish but still simple, so I kept it monochrome and let the photographs do the work. Every photo can be liked and commented on, which turns the album into something visitors can respond to.</p>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-6">What it does</h2>
+    <ul class="grid gap-4 sm:grid-cols-2">
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Cover-first opening</b><p class="mt-1 text-sm text-neutral-500">The first screen is a single cover photo, like the front of a magazine or a film still.</p></li>
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Scroll animation</b><p class="mt-1 text-sm text-neutral-500">The album unfolds as you scroll, so the pace of the photos is controlled by the visitor.</p></li>
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Likes on every photo</b><p class="mt-1 text-sm text-neutral-500">Visitors can like any picture, and the count is saved.</p></li>
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Comments on every photo</b><p class="mt-1 text-sm text-neutral-500">Visitors can leave a comment under any picture.</p></li>
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Black-and-white design</b><p class="mt-1 text-sm text-neutral-500">A muted, non-vibrant palette with a film and magazine feel.</p></li>
+      <li class="border border-neutral-200 dark:border-neutral-800 p-5"><b>Simple by design</b><p class="mt-1 text-sm text-neutral-500">A stylish look without clutter, so nothing competes with the photos.</p></li>
+    </ul>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-4">Design direction</h2>
+    <ul class="list-disc pl-5 space-y-2 max-w-2xl text-neutral-600 dark:text-neutral-300">
+      <li><b>One cover photo first.</b> The opening screen sets the mood before any content appears.</li>
+      <li><b>Monochrome only.</b> Black, white and greys keep attention on light and shadow in the photographs.</li>
+      <li><b>Motion with a purpose.</b> The scroll animation paces how the photos arrive instead of decorating the page.</li>
+      <li><b>Interaction stays quiet.</b> Likes and comments are available on every photo without taking over the layout.</li>
+    </ul>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-6">How it is built</h2>
+    <div class="grid gap-3 sm:grid-cols-[1fr_auto_1fr_auto_1fr] sm:items-center text-center text-sm">
+      <div class="border border-neutral-300 dark:border-neutral-700 p-4"><b>Frontend</b><br><span class="text-neutral-500">Static site · Vercel</span></div>
+      <span class="text-neutral-500" aria-hidden="true">→</span>
+      <div class="border border-neutral-300 dark:border-neutral-700 p-4"><b>API</b><br><span class="text-neutral-500">PHP · Render</span></div>
+      <span class="text-neutral-500" aria-hidden="true">→</span>
+      <div class="border border-neutral-300 dark:border-neutral-700 p-4"><b>Database and images</b><br><span class="text-neutral-500">Supabase</span></div>
+    </div>
+    <p class="mt-6 max-w-2xl text-neutral-600 dark:text-neutral-300">The site itself is static and hosted on Vercel. A small PHP API on Render handles likes and comments, and Supabase stores the data and the photos. I compared other options for the database and image storage before choosing Supabase to keep everything in one place.</p>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800">
+    <h2 class="text-2xl font-bold tracking-tight mb-4">What I learned</h2>
+    <ul class="list-disc pl-5 space-y-2 max-w-2xl text-neutral-600 dark:text-neutral-300">
+      <li>Designing a restrained, monochrome style where the photographs do the work.</li>
+      <li>Using scroll animation to set the pace of a page rather than to decorate it.</li>
+      <li>Building a PHP API for likes and comments and connecting it to a hosted Supabase database.</li>
+      <li>Deploying a static front end, an API and a hosted database as three separate pieces that work together.</li>
+    </ul>
+  </section>
+
+  <section class="py-12 border-t border-neutral-200 dark:border-neutral-800 mb-8">
+    <div class="flex flex-wrap gap-3">
+      <a href="https://your-slow-light.vercel.app" target="_blank" rel="noopener" class="rounded-full bg-black text-white dark:bg-white dark:text-black px-6 py-3 font-medium">View live site ↗</a>
+      <a href="https://github.com/ryandcoder/slow-light" target="_blank" rel="noopener" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-6 py-3 font-medium hover:border-current">GitHub repository ↗</a>
+      <a href="index.html#projects" class="rounded-full border border-neutral-300 dark:border-neutral-700 px-6 py-3 font-medium hover:border-current">More projects</a>
+    </div>
+  </section>
+</main>
+<footer class="border-t border-neutral-200 dark:border-neutral-800 py-8 text-center text-sm text-neutral-500">© <span id="yr"></span> Kim Ryan Nabo</footer>
+
+<script>
+document.getElementById("yr").textContent = new Date().getFullYear();
+document.getElementById("themeBtn").onclick = () => {
+  const dark = document.documentElement.classList.toggle("dark");
+  localStorage.theme = dark ? "dark" : "light";
+};
+</script>
+<script src="motion-effects.js" defer></script>
+</body>
+</html>
